@@ -1,0 +1,842 @@
+{
+  "address": "Ct1hXFVjP5zoCFU5JWyEaA2weJw7T76snBKhzW6jtoJo",
+  "metadata": {
+    "name": "sentigen_token_2022",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "buy",
+      "discriminator": [102, 6, 61, 18, 1, 218, 235, 234],
+      "accounts": [
+        {
+          "name": "swapper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global_configuration",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "token_a"
+        },
+        {
+          "name": "pool_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "swapper_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "token_b"
+        },
+        {
+          "name": "pool_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "swapper_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "pda_base_token_platform",
+          "writable": true
+        },
+        {
+          "name": "pda_base_token_agent_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_tokens_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 100, 97, 45, 116, 111, 107, 101, 110]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "expected_amt",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "discriminator": [24, 30, 200, 40, 5, 28, 7, 119],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global_configuration",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98, 111, 110, 100, 105, 110, 103, 95, 99, 117, 114, 118, 101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "random_seed"
+              },
+              {
+                "kind": "account",
+                "path": "token_a"
+              },
+              {
+                "kind": "account",
+                "path": "token_b"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_a"
+        },
+        {
+          "name": "pool_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "token_b"
+        },
+        {
+          "name": "pool_token_b_account",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_tokens_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 100, 97, 45, 116, 111, 107, 101, 110]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "random_seed",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "discriminator": [175, 175, 109, 31, 13, 152, 155, 237],
+      "accounts": [
+        {
+          "name": "global_configuration",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pool_token_a_account",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "base_token_platform",
+          "writable": true
+        },
+        {
+          "name": "base_token_agent_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_tokens_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 100, 97, 45, 116, 111, 107, 101, 110]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_token",
+          "writable": true
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "transaction_fee",
+          "type": "u16"
+        },
+        {
+          "name": "tax_withdraw_threshold",
+          "type": "u64"
+        },
+        {
+          "name": "bonding_curve_limitation",
+          "type": "u64"
+        },
+        {
+          "name": "initial_virtual_token_a",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "proxy_initialize",
+      "discriminator": [185, 41, 170, 16, 237, 245, 76, 134],
+      "accounts": [
+        {
+          "name": "token_program",
+          "docs": ["Program to create mint account and mint tokens"],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "token_0_program",
+          "docs": ["Spl token program or token program 2022"]
+        },
+        {
+          "name": "token_1_program",
+          "docs": ["Spl token program or token program 2022"]
+        },
+        {
+          "name": "associated_token_program",
+          "docs": ["Program to create an ATA for receiving position NFT"],
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "docs": ["To create a new program account"],
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "docs": ["Sysvar for program account"],
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "remove_liquidity",
+      "discriminator": [80, 85, 209, 72, 24, 206, 177, 108],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "global_configuration",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98, 111, 110, 100, 105, 110, 103, 95, 99, 117, 114, 118, 101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "random_seed"
+              },
+              {
+                "kind": "account",
+                "path": "token_a"
+              },
+              {
+                "kind": "account",
+                "path": "token_b"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_a"
+        },
+        {
+          "name": "pool_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "admin_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "token_b"
+        },
+        {
+          "name": "pool_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "admin_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "pool_tokens_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 100, 97, 45, 116, 111, 107, 101, 110]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "random_seed",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "sell",
+      "discriminator": [51, 230, 133, 164, 1, 127, 131, 173],
+      "accounts": [
+        {
+          "name": "swapper",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global_configuration",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bonding_curve",
+          "writable": true
+        },
+        {
+          "name": "token_a"
+        },
+        {
+          "name": "pool_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "swapper_token_a_account",
+          "writable": true
+        },
+        {
+          "name": "token_b"
+        },
+        {
+          "name": "pool_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "swapper_token_b_account",
+          "writable": true
+        },
+        {
+          "name": "base_token_platform",
+          "writable": true
+        },
+        {
+          "name": "base_token_agent_vault",
+          "writable": true
+        },
+        {
+          "name": "pool_tokens_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [112, 100, 97, 45, 116, 111, 107, 101, 110]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "expected_amt",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_tax",
+      "discriminator": [220, 150, 84, 199, 3, 29, 223, 96],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "global_configuration",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  103, 108, 111, 98, 97, 108, 45, 99, 111, 110, 102, 105, 103,
+                  45, 115, 101, 110, 116, 105, 103, 101, 110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "mint_account",
+          "writable": true
+        },
+        {
+          "name": "destination_token_account",
+          "writable": true
+        },
+        {
+          "name": "withdraw_tax_authority",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116, 97, 120, 95, 119, 105, 116, 104, 104, 101, 108, 100, 95,
+                  97, 117, 116, 104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "global_configuration"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BondingCurve",
+      "discriminator": [23, 183, 248, 55, 96, 216, 172, 96]
+    },
+    {
+      "name": "InitializeConfiguration",
+      "discriminator": [100, 69, 154, 202, 176, 44, 253, 185]
+    }
+  ],
+  "events": [
+    {
+      "name": "BondingCurveCompleted",
+      "discriminator": [181, 166, 229, 13, 28, 136, 252, 161]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidOwner",
+      "msg": "Invalid owner"
+    },
+    {
+      "code": 6001,
+      "name": "MissMatchingValue",
+      "msg": "Mismatching Values"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidNumber",
+      "msg": "Invalid Buy amount"
+    },
+    {
+      "code": 6003,
+      "name": "SlippageExcceded",
+      "msg": "Slippage Error"
+    },
+    {
+      "code": 6004,
+      "name": "DuplicateTokenNotAllowed",
+      "msg": "Duplicate tokens are not allowed"
+    },
+    {
+      "code": 6005,
+      "name": "FailedToAllocateShares",
+      "msg": "Failed to allocate shares"
+    },
+    {
+      "code": 6006,
+      "name": "FailedToDeallocateShares",
+      "msg": "Failed to deallocate shares"
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientShares",
+      "msg": "Insufficient shares"
+    },
+    {
+      "code": 6008,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds to swap"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidAmount",
+      "msg": "Invalid amount to swap"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidFee",
+      "msg": "Invalid fee"
+    },
+    {
+      "code": 6011,
+      "name": "FailedToAddLiquidity",
+      "msg": "Failed to add liquidity"
+    },
+    {
+      "code": 6012,
+      "name": "FailedToRemoveLiquidity",
+      "msg": "Failed to remove liquidity"
+    },
+    {
+      "code": 6013,
+      "name": "OverflowOrUnderflowOccurred",
+      "msg": "Overflow or underflow occured"
+    }
+  ],
+  "types": [
+    {
+      "name": "BondingCurve",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "init_virtual_a_token",
+            "type": "u64"
+          },
+          {
+            "name": "platform_fee_collected",
+            "type": "u64"
+          },
+          {
+            "name": "agent_vault_fee_collected",
+            "type": "u64"
+          },
+          {
+            "name": "token_a_reserve",
+            "type": "u64"
+          },
+          {
+            "name": "token_a_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_a_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_b_supply",
+            "type": "u64"
+          },
+          {
+            "name": "token_b_reserve",
+            "type": "u64"
+          },
+          {
+            "name": "token_b_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_b_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "seed",
+            "type": "string"
+          },
+          {
+            "name": "k_param",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BondingCurveCompleted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint_address",
+            "type": "pubkey"
+          },
+          {
+            "name": "user_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_pool",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeConfiguration",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_initialized",
+            "type": "bool"
+          },
+          {
+            "name": "base_token",
+            "type": "pubkey"
+          },
+          {
+            "name": "bonding_curve_limitation",
+            "type": "u64"
+          },
+          {
+            "name": "transaction_fee",
+            "type": "u16"
+          },
+          {
+            "name": "init_virtual_a_token",
+            "type": "u64"
+          },
+          {
+            "name": "tax_withdraw_threshold",
+            "type": "u64"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "base_token_platform_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "base_token_agent_vault_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_tokens_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool_token_a_account",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "DENOMINATOR",
+      "type": "u64",
+      "value": "10000"
+    }
+  ]
+}

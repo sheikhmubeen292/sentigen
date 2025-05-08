@@ -1,0 +1,136 @@
+{
+  "title": "Premium Streetwear",
+  "description": "Premium streetwear for the digitally evolved",
+  "sections": [
+    {
+      "id": "hero",
+      "name": "Hero Section",
+      "className": "bg-black text-white py-20",
+      "elements": [
+        {
+          "id": "hero-title",
+          "type": "text",
+          "content": "Premium streetwear for the digitally evolved",
+          "variant": "h1",
+          "className": "text-4xl md:text-6xl font-bold mb-6",
+          "gridSpan": "col-span-12 md:col-span-6"
+        },
+        {
+          "id": "hero-image",
+          "type": "image",
+          "src": "/cultrureImage.png",
+          "alt": "Premium streetwear collection",
+          "className": "",
+          "gridSpan": ""
+        }
+      ]
+    },
+    {
+      "id": "narrative",
+      "name": "Narrative Section",
+      "className": "",
+      "elements": [
+        {
+          "id": "features-title",
+          "type": "text",
+          "content": "Our world is constantly shifting between physical and digital, creating noise that drowns out what matters. That's where SNTI comes in. We're premium streetwear designed for those seeking clarity in chaos, connecting individuals who understand that style isn't just what you wear—it's how you process and transmit your unique signal.",
+          "variant": "",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "boys-image",
+          "type": "image",
+          "src": "/boys.png",
+          "alt": "Boys",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "boys2-image",
+          "type": "image",
+          "src": "/boys2Img.png",
+          "alt": "boys 2",
+          "className": "",
+          "gridSpan": "",
+          "text": {
+            "content": "I started SNTI because I saw the chaos and wanted to create something that cuts through it. For me, style isn't just about clothes—it's about clarity. Each piece we design helps you cut out your own signal. SNTI is my way  of finding clarity and connecting with others who feel the same.",
+            "iconUrl": { "telegram": "#", "twitter": "#", "website": "#" }
+          }
+        },
+        {
+          "id": "vision-title",
+          "type": "text",
+          "content": "Our world is constantly shifting between physical and digital, creating noise that drowns out what matters. That's where SNTI comes in. We're premium streetwear designed for those seeking clarity in chaos, connecting individuals who understand that style isn't just what you wear—it's how you process and transmit your unique signal.",
+          "variant": "",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "vision-bg-image",
+          "type": "image",
+          "src": "/visionBg.png",
+          "alt": "visionBg",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "news-bg-image",
+          "type": "image",
+          "src": "/newsBg.png",
+          "alt": "newsBg.png",
+          "className": "",
+          "gridSpan": ""
+        },
+
+        {
+          "id": "community-image1",
+          "type": "image",
+          "src": "/community1.png",
+          "alt": "/community",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "community-image2",
+          "type": "image",
+          "src": "/community2.png",
+          "alt": "/community",
+          "className": "",
+          "gridSpan": ""
+        },
+        {
+          "id": "community-image3",
+          "type": "image",
+          "src": "/community3.png",
+          "alt": "/community",
+          "className": "",
+          "gridSpan": ""
+        }
+      ]
+    },
+    {
+      "id": "cta",
+      "name": "Call to Action",
+      "className": "bg-black text-white py-20",
+      "elements": [
+        {
+          "id": "cta-title",
+          "type": "text",
+          "content": "Ready to elevate your style?",
+          "variant": "h2",
+          "className": "text-3xl font-bold mb-4 text-center",
+          "gridSpan": "col-span-12"
+        },
+        {
+          "id": "cta-description",
+          "type": "text",
+          "content": "Join our community of fashion-forward individuals who appreciate quality and style.",
+          "variant": "p",
+          "className": "text-lg mb-8 text-center",
+          "gridSpan": "col-span-12"
+        }
+      ]
+    }
+  ]
+}
