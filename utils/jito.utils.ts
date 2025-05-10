@@ -49,27 +49,76 @@ export const jitoTrx = async (
 
   const fullySigned = await wallet.signAllTransactions(vtxs);
 
-  const transactionHashes = fullySigned.map((tx) => {
-    const rawTx = tx?.signatures.map((val) => bs58.encode(val));
+  // const transactionHashes = fullySigned.map((tx) => {
+  //   const rawTx = tx?.signatures.map((val) => bs58.encode(val));
 
-    return [...rawTx];
-  });
+  //   return [...rawTx];
+  // });
 
-  console.log("Transaction hashes:", transactionHashes);
+  // console.log("Transaction hashes:", transactionHashes);
 
-  const encoded = fullySigned.map((tx) => bs58.encode(tx.serialize()));
+  // const encoded = fullySigned.map((tx) => bs58.encode(tx.serialize()));
 
-  const bundleUrl = JitoUrl;
+  const encoded = fullySigned.map((tx) =>
+    Buffer.from(tx.serialize()).toString("base64")
+  );
+
   const payload = {
     jsonrpc: "2.0",
     id: 1,
     method: "sendBundle",
-    params: [encoded],
+    params: [encoded, { encoding: "base64" }],
   };
 
-  const resp = await axios.post(bundleUrl, payload, {
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const resp = await axios.post(`${JitoUrl}/bundles`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  return { bundle: resp.data.result, transactionHashes };
+    const bundleId = resp.data.result;
+
+    // Fetch bundle status
+    const statusPayload = {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "getBundleStatuses",
+      params: [[bundleId]],
+    };
+
+    const statusResp = await axios.post(
+      `${JitoUrl}/getBundleStatuses`,
+      statusPayload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const transactionHashes =
+      statusResp.data.result.value[0]?.transactions || [];
+
+    console.log(transactionHashes, "transactionHashes");
+
+    return { bundle: bundleId, transactionHashes };
+  } catch (error) {
+    console.error("Error sending bundle:", error);
+    throw error;
+  }
+
+  // const bundleUrl = JitoUrl;
+  // const payload = {
+  //   jsonrpc: "2.0",
+  //   id: 1,
+  //   method: "sendBundle",
+  //   params: [encoded, { encoding: "base64" }],
+  // };
+
+  // const resp = await axios.post(bundleUrl, payload, {
+  //   headers: { "Content-Type": "application/json" },
+  // });
+
+  // return { bundle: resp.data.result, transactionHashes };
 };

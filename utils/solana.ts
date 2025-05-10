@@ -41,6 +41,8 @@ export const tokenMintAmount = 1000000000 * LAMPORTS_PER_SOL;
 export const boundingCurveCapUsd = 33000; // max cap $33000 USD
 export const PROPORTION = 13;
 
-export const JitoUrl = "https://mainnet.block-engine.jito.wtf/api/v1/bundles";
+export const JitoUrl = "https://amsterdam.mainnet.block-engine.jito.wtf/api/v1";
+// export const JitoUrl = "https://london.mainnet.block-engine.jito.wtf/api/v1";
+// export const JitoUrl = "https://mainnet.block-engine.jito.wtf/api/v1";
 export const JitoTip = 0.001;
 export const JitoWallet = "ADuUkR4vqLUMWXxW9gh6D6L8pMSawimctcNZ5pGwDcEt";

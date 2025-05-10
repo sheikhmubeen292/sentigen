@@ -53,7 +53,7 @@ import Footer from "@/components/footer";
 import { toWeb3JsInstruction } from "@metaplex-foundation/umi-web3js-adapters";
 import { jitoTrx } from "@/utils/jito.utils";
 import Loader from "@/components/Loader";
-import { delay, saveTrx } from "@/services/trx";
+import { checkAndConfirmTrx, delay, saveTrx } from "@/services/trx";
 
 const initialToken = {
   name: "",
@@ -340,11 +340,13 @@ export default function CreateAgent() {
           wallet
         );
 
+        await checkAndConfirmTrx(bundleTxSignature.transactionHashes[1]);
+
         await saveTrx(
           ramount,
           wallet.publicKey.toBase58(),
           "buy",
-          bundleTxSignature.bundle,
+          bundleTxSignature.transactionHashes[1],
           amount,
           tokenData?.tokenMint,
           tokenData?.name

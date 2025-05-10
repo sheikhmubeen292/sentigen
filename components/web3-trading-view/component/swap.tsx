@@ -576,7 +576,7 @@ export default function Swap({ tokenData, metrics }: Props) {
           tx = await sendTrx(result[0].instructions);
         } else {
           const bundleTxSignature = await jitoTrx(result, wallet);
-          tx = bundleTxSignature.bundle;
+          tx = bundleTxSignature.transactionHashes[0];
         }
       } else {
         const result: BundleTransaction[] = await swapSellTrx();
