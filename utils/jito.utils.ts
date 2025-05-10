@@ -50,9 +50,12 @@ export const jitoTrx = async (
   const fullySigned = await wallet.signAllTransactions(vtxs);
 
   const transactionHashes = fullySigned.map((tx) => {
-    const rawTx = tx.serialize();
-    return bs58.encode(rawTx.slice(0, 64));
+    const rawTx = tx?.signatures.map((val) => bs58.encode(val));
+
+    return [...rawTx];
   });
+
+  console.log("Transaction hashes:", transactionHashes);
 
   const encoded = fullySigned.map((tx) => bs58.encode(tx.serialize()));
 
