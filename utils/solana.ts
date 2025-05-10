@@ -42,5 +42,5 @@ export const boundingCurveCapUsd = 33000; // max cap $33000 USD
 export const PROPORTION = 13;
 
 export const JitoUrl = "https://mainnet.block-engine.jito.wtf/api/v1/bundles";
-export const JitoTip = 0.0001;
+export const JitoTip = 0.001;
 export const JitoWallet = "ADuUkR4vqLUMWXxW9gh6D6L8pMSawimctcNZ5pGwDcEt";
