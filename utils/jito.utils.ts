@@ -70,15 +70,14 @@ export const jitoTrx = async (
     params: [encoded, { encoding: "base64" }],
   };
 
+  const resp = await axios.post(`${JitoUrl}/bundles`, payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const bundleId = resp.data.result;
   try {
-    const resp = await axios.post(`${JitoUrl}/bundles`, payload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const bundleId = resp.data.result;
-
     // Fetch bundle status
     const statusPayload = {
       jsonrpc: "2.0",
@@ -105,7 +104,8 @@ export const jitoTrx = async (
     return { bundle: bundleId, transactionHashes };
   } catch (error) {
     console.error("Error sending bundle:", error);
-    throw error;
+    // throw error;
+    return { bundle: bundleId, transactionHashes: [] };
   }
 
   // const bundleUrl = JitoUrl;
