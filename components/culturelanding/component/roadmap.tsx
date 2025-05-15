@@ -65,7 +65,7 @@ export default function Roadmap() {
   return (
     <>
       {/* Desktop view */}
-      <div className="px-4 hidden md:block relative group w-full min-h-[450px] py-6 mt-10">
+      <div className="px-4 mx-4 hidden md:block relative group w-full min-h-[450px] py-6 mt-10">
         <h3 className="absolute left-4 top-0 text-sm font-normal text-[#F2F2F2]">
           Roadmap
         </h3>

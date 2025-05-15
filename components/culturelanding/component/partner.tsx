@@ -36,7 +36,7 @@ export default function Partner() {
         }
       `}</style>
 
-      <div className="px-4 relative group w-full min-h-[90px] md:min-h-[130px] py-6 mt-10 md:col-span-1">
+      <div className="px-4 relative group w-full min-h-[90px] md:min-h-[130px] py-6 mt-10 md:col-span-1 mx-4">
         <h3 className="absolute left-2 top-0 text-sm font-normal text-[#F2F2F2]">
           Partners
         </h3>
@@ -123,7 +123,7 @@ export default function Partner() {
           </defs>
         </svg>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mx-4">
         <p className="my-8 font-bold text-white text-2xl md:text-4xl w-full md:w-[63%]">
           Shoutout to the ones making it shape the platform, these are our the
           people who share love to our brand.
