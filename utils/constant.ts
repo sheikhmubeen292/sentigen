@@ -4,11 +4,10 @@ import { io } from "socket.io-client";
 
 import { AppContextType, IUser } from "@/types/user.types";
 
-export const serverUrl = "https://orca-app-plo5l.ondigitalocean.app";
-// export const serverUrl =
-//   process.env.NODE_ENV === "production"
-//     ? "https://orca-app-plo5l.ondigitalocean.app"
-//     : "http://localhost:5001";
+export const serverUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://orca-app-plo5l.ondigitalocean.app"
+    : "http://localhost:5001";
 
 export const socket = io(serverUrl);
 

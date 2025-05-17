@@ -1,29 +1,34 @@
-"use client";
-
 import Image from "next/image";
 import PartnerEdit from "./edit-dailog/partner-edit";
 import { useRef, useState } from "react";
 import { Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function Partner() {
+export default function Partner({ data, tokenMint }: any) {
   const [open, setOpen] = useState(false);
-
-  const [logos, setLogos] = useState([
-    { id: "1", src: "/dummyImg.png", name: "logoipsum" },
-    { id: "2", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "3", src: "/dummyImg.png", name: "logoipsum" },
-    { id: "4", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "5", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "6", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "7", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "8", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "9", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "10", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "11", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "12", src: "/dummyImg.png", name: "Logoipsum" },
-    { id: "13", src: "/dummyImg.png", name: "Logoipsum" },
-  ]);
+  const [logos, setLogos] = useState(
+    (
+      data?.partner || [
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+        "/dummyImg.png",
+      ]
+    ).map((src, index) => ({
+      id: index.toString(),
+      src,
+      name: `Partner ${index + 1}`,
+    }))
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +41,7 @@ export default function Partner() {
         }
       `}</style>
 
-      <div className="px-4 relative group w-full min-h-[90px] md:min-h-[130px] py-6 mt-10 md:col-span-1 mx-4">
+      <div className="px-4 relative group w-full min-h-[90px] md:min-h-[130px] py-6 mt-10 md:col-span-1 ">
         <h3 className="absolute left-2 top-0 text-sm font-normal text-[#F2F2F2]">
           Partners
         </h3>
@@ -83,7 +88,7 @@ export default function Partner() {
                 </span>
                 {logos.map((logo, index) => (
                   <Image
-                    key={index}
+                    key={logo.id}
                     src={logo.src || "/placeholder.svg"}
                     alt={logo.name}
                     width={200}
@@ -123,7 +128,7 @@ export default function Partner() {
           </defs>
         </svg>
       </div>
-      <div className="flex justify-between items-center mx-4">
+      <div className="flex justify-between items-center ">
         <p className="my-8 font-bold text-white text-2xl md:text-4xl w-full md:w-[63%]">
           Shoutout to the ones making it shape the platform, these are our the
           people who share love to our brand.
@@ -136,14 +141,7 @@ export default function Partner() {
         logos={logos}
         setLogos={setLogos}
         fileInputRef={fileInputRef}
-      />
-
-      {/* Hidden file input */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        className="hidden"
-        accept="image/*"
+        tokenMint={tokenMint}
       />
     </>
   );

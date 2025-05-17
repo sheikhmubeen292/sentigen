@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import ImageUpload from "@/components/image-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { serverUrl } from "@/utils/constant";
 
 interface CreatorEditProps {
   open: boolean;
@@ -24,6 +26,7 @@ interface CreatorEditProps {
   };
   setContentCreator: (value: any) => void;
   onSave?: (text: any) => void;
+  tokenMint?: string;
 }
 
 export default function CreatorEdit({
@@ -32,14 +35,53 @@ export default function CreatorEdit({
   contentCrator,
   setContentCreator,
   onSave,
+  tokenMint,
 }: CreatorEditProps) {
   const maxChars = 400;
 
-  const handleSave = () => {
-    if (onSave) {
-      onSave(contentCrator);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSave = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      setIsSubmitting(true);
+
+      const formData = new FormData();
+
+      formData.append("tokenMint", tokenMint || "");
+      formData.append("description", contentCrator.about || "");
+      formData.append("telegramUrl", contentCrator.telegram || "");
+      formData.append("twitterUrl", contentCrator.x || "");
+      formData.append("websiteUrl", contentCrator.web || "");
+      formData.append("youtubeUrl", contentCrator.youtube || "");
+      formData.append("discordUrl", contentCrator.discord || "");
+
+      formData.append("tiktokUrl", "");
+
+      if (contentCrator.img && contentCrator.img.startsWith("data:")) {
+        const response = await fetch(contentCrator.img);
+        const blob = await response.blob();
+        formData.append("image", blob, "creator-image.png");
+      }
+
+      const response = await axios.post(`${serverUrl}/coin/update`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // or just `token: token` if backend expects `token`
+        },
+      });
+      console.log("Response from server:", response.data);
+      if (onSave) {
+        onSave(contentCrator);
+      }
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Failed to update creator information:", error);
+      // Handle error (could add error state and display message)
+    } finally {
+      setIsSubmitting(false);
     }
-    setOpen(false);
   };
 
   const handleChange = (field: string, value: string) => {
@@ -178,8 +220,9 @@ export default function CreatorEdit({
           <Button
             className="bg-white text-[#1F1F1F] hover:bg-gray-200 w-full h-10 rounded-lg"
             onClick={handleSave}
+            disabled={isSubmitting}
           >
-            Save Changes
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </SheetContent>

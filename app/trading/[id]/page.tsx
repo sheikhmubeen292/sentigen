@@ -12,6 +12,9 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 import Navbar from "@/components/navbar";
 import HeroSectionText from "@/components/web3-trading-view/component/heroSectionText";
+// Import removed since we're not using it (local function shadows it)
+import { serverUrl } from "@/utils/constant";
+import axios from "axios";
 
 export default function DetailPage({ params }: { params: ProfileParams }) {
   const { id } = params;
@@ -27,6 +30,8 @@ export default function DetailPage({ params }: { params: ProfileParams }) {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [coinData, setCoinData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleToggle = (newSelection: string) => {
     if (newSelection === "starred") {
@@ -88,6 +93,7 @@ export default function DetailPage({ params }: { params: ProfileParams }) {
       }
     }
   };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -98,10 +104,37 @@ export default function DetailPage({ params }: { params: ProfileParams }) {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   const closeSidebar = () => {
     setSidebarOpen(false);
     setSelectedElement(null);
   };
+
+  // Fetch coin details function
+  const getCoinDetails = async () => {
+    if (!id) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(`${serverUrl}/coin_detail/data/${id}`);
+
+      if (response.data && response.data.data) {
+        setCoinData(response.data.data);
+      } else {
+        console.error("Invalid response structure:", response.data);
+      }
+    } catch (err) {
+      console.error("Error fetching coin details:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getCoinDetails();
+  }, [id]);
+
+  console.log("Coin Data:", coinData);
   return (
     <div className="h-screen bg-[#0d0d0d] text-[#f2f2f2] relative flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-5">
@@ -119,10 +152,12 @@ export default function DetailPage({ params }: { params: ProfileParams }) {
             )}
             {(selected === "story" || previousPage === "story") && (
               <>
-                <HeroSectionText />
+                <HeroSectionText data={coinData} tokenMint={id} />
                 <CultureLanding
                   content={content}
                   onElementClick={handleElementClick}
+                  tokenMint={id}
+                  data={coinData}
                 />
               </>
             )}

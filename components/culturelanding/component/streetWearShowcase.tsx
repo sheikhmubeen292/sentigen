@@ -1,7 +1,5 @@
 "use client";
 
-import type { PageContent } from "@/types/page-content";
-import { Pencil } from "lucide-react";
 import Image from "next/image";
 import NarrativeText from "./edit-dailog/narrative-edit";
 import { useState } from "react";
@@ -10,19 +8,19 @@ import StreetEdit from "./edit-dailog/street-edit";
 import { cn } from "@/lib/utils";
 
 interface EditableLandingPageProps {
-  content: PageContent;
-  onElementClick: (id: string, type: "text" | "image", section: string) => void;
+  tokenMint?: any;
+  data?: any;
 }
 
 const dummyText =
   "Our world is constantly shifting between physical and digital, creating noise that drowns out what matters. That's where SNTI comes in. We're premium streetwear designed for those seeking clarity in chaos, connecting individuals who understand that style isn't just what you wear—it's how you process and transmit your unique signal.";
 
 export default function StreetWearShowcase({
-  content,
-  onElementClick,
+  data,
+  tokenMint,
 }: EditableLandingPageProps) {
   const [open, setOpen] = useState(false);
-  const [text, setText] = useState(dummyText);
+  const [text, setText] = useState(data?.narrative || dummyText);
   const [openCreator, setOpenCreator] = useState(false);
   const [contentCrator, setContentCreator] = useState({
     about:
@@ -36,19 +34,9 @@ export default function StreetWearShowcase({
   });
 
   const [openStreet, setOpenStreet] = useState(false);
-  const [streetImg, setStreetImage] = useState("/boys.png");
-
-  const secondSection = content.sections[1];
-  const secondElement = secondSection?.elements[1];
-  if (!secondElement || secondElement.type !== "image") return null;
-
-  const narrativeSection = content.sections[1];
-  const narrativeElement = narrativeSection.elements[0];
-  if (!narrativeElement || narrativeElement.type !== "text") return null;
-
-  const boySectionCreator = content.sections[1];
-  const boysElement = boySectionCreator.elements[2];
-  if (!boysElement || boysElement.type !== "image") return null;
+  const [streetImg, setStreetImage] = useState(
+    data?.creativeImage || "/boys.png"
+  );
 
   return (
     <>
@@ -64,7 +52,13 @@ export default function StreetWearShowcase({
           {/* Left Column - Product Showcase */}
           <div className="relative group rounded-xl h-full w-full flex-grow">
             <Image
-              src={streetImg || "/placeholder.svg"}
+              src={
+                typeof streetImg === "string"
+                  ? streetImg
+                  : streetImg instanceof File
+                  ? URL.createObjectURL(streetImg)
+                  : "/placeholder.svg"
+              }
               alt="SNTI Streetwear Collection"
               width={800}
               height={730}
@@ -310,18 +304,21 @@ export default function StreetWearShowcase({
         setOpen={setOpen}
         text={text}
         setText={setText}
+        tokenMint={tokenMint}
       />
       <CreatorEdit
         open={openCreator}
         setOpen={setOpenCreator}
         contentCrator={contentCrator}
         setContentCreator={setContentCreator}
+        tokenMint={tokenMint}
       />
       <StreetEdit
         open={openStreet}
         setOpen={setOpenStreet}
         img={streetImg}
         setImg={setStreetImage}
+        tokenMint={tokenMint}
       />
     </>
   );

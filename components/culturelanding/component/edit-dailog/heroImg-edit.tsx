@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { serverUrl } from "@/utils/constant";
+import axios from "axios";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
@@ -14,6 +16,7 @@ interface HeroImgEditProps {
   img: string;
   setImg: (img: string) => void;
   onSave?: (img: string) => void;
+  tokenMint: any;
 }
 
 export default function HeroImgEdit({
@@ -22,6 +25,7 @@ export default function HeroImgEdit({
   img,
   setImg,
   onSave,
+  tokenMint,
 }: HeroImgEditProps) {
   const [tempImg, setTempImg] = useState(img);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,10 +39,27 @@ export default function HeroImgEdit({
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setImg(tempImg); // Update the parent component's state
     if (onSave) onSave(tempImg);
-    setOpen(false); // Close the sheet
+
+    try {
+      const response = await axios.post(`${serverUrl}/coin_detail/title`, {
+        tokenMint: tokenMint,
+        image: tempImg,
+      });
+
+      if (response.status === 200) {
+        console.log("Hero Image  updated successfully");
+      } else {
+        console.error("Failed to update image details");
+      }
+    } catch (err) {
+      console.error("Error fetching coin details:", err);
+    } finally {
+      if (onSave) onSave(tempImg);
+      setOpen(false);
+    }
   };
 
   return (

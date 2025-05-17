@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { GripVertical, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { RefObject } from "react";
+import { RefObject, useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import axios from "axios";
+import { serverUrl } from "@/utils/constant";
 
 interface PartnerEditProps {
   open: boolean;
@@ -17,6 +19,7 @@ interface PartnerEditProps {
     >
   >;
   fileInputRef: RefObject<HTMLInputElement>;
+  tokenMint?: any;
 }
 
 export default function PartnerEdit({
@@ -25,9 +28,57 @@ export default function PartnerEdit({
   logos,
   setLogos,
   fileInputRef,
+  tokenMint,
 }: PartnerEditProps) {
-  const handleSave = () => {
-    setOpen(false);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleSave = async () => {
+    setIsUploading(true);
+    try {
+      // Create FormData for all new logos
+      const formData = new FormData();
+
+      // Add tokenMint if available
+      if (tokenMint) {
+        formData.append("tokenMint", tokenMint);
+      }
+
+      // Add all logo files that haven't been uploaded yet
+      logos.forEach((logo, index) => {
+        if (logo.file) {
+          formData.append(`images`, logo.file);
+          formData.append(`names`, logo.name);
+        }
+      });
+
+      // Send to API
+      const response = await axios.post(
+        `${serverUrl}/coin_detail/partner`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
+
+      // Update logos to remove File objects after successful upload
+      setLogos(
+        logos.map((logo) => ({
+          id: logo.id,
+          src: logo.src,
+          name: logo.name,
+        }))
+      );
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Error uploading logos:", error);
+      // Handle error (show toast, etc.)
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleRemoveLogo = (id: string) => {
@@ -85,7 +136,7 @@ export default function PartnerEdit({
               </div>
 
               <div className="space-y-4">
-                {logos.map((logo) => (
+                {logos.map((logo, i) => (
                   <div
                     key={logo.id}
                     className="flex items-center justify-between"
@@ -119,6 +170,7 @@ export default function PartnerEdit({
                 <Button
                   className="w-full bg-[#222627] text-white hover:bg-[#2a2f30]"
                   onClick={handleAddLogoClick}
+                  disabled={isUploading}
                 >
                   <Plus className="mr-2 h-4 w-4" /> Add New Logo
                 </Button>
@@ -131,8 +183,9 @@ export default function PartnerEdit({
             <Button
               className="bg-white text-[#1F1F1F] hover:bg-gray-200 w-full h-10 rounded-lg"
               onClick={handleSave}
+              disabled={isUploading}
             >
-              Save Changes
+              {isUploading ? "Uploading..." : "Save Changes"}
             </Button>
           </div>
         </SheetContent>
@@ -142,9 +195,11 @@ export default function PartnerEdit({
       {open && (
         <input
           type="file"
+          ref={fileInputRef}
           onChange={handleFileChange}
           className="hidden"
           accept="image/*"
+          disabled={isUploading}
         />
       )}
     </>

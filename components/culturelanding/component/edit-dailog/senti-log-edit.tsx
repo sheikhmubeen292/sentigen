@@ -1,9 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+
+import { serverUrl } from "@/utils/constant";
+import axios from "axios";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
@@ -14,6 +16,7 @@ interface HeroImgEditProps {
   img: string;
   setImg: (img: string) => void;
   onSave?: (img: string) => void;
+  tokenMint: any;
 }
 
 export default function SentiLogoEdit({
@@ -22,9 +25,12 @@ export default function SentiLogoEdit({
   img,
   setImg,
   onSave,
+  tokenMint,
 }: HeroImgEditProps) {
   const [tempImg, setTempImg] = useState(img);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -32,13 +38,45 @@ export default function SentiLogoEdit({
       // Create a local URL for the selected image
       const imageUrl = URL.createObjectURL(file);
       setTempImg(imageUrl);
+      setSelectedFile(file);
+      if (onSave) onSave(imageUrl);
     }
   };
 
-  const handleSave = () => {
-    setImg(tempImg); // Update the parent component's state
+  const handleSave = async () => {
+    setImg(tempImg);
     if (onSave) onSave(tempImg);
-    setOpen(false); // Close the sheet
+
+    try {
+      const formData = new FormData();
+      formData.append("tokenMint", tokenMint);
+      if (selectedFile) {
+        formData.append("image", selectedFile);
+      } else {
+        formData.append("image", img);
+      }
+
+      const response = await axios.post(
+        `${serverUrl}/coin_detail/introLogo`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Hero Image updated successfully");
+      } else {
+        console.error("Failed to update image details");
+      }
+    } catch (err) {
+      console.error("Error fetching coin details:", err);
+    } finally {
+      setOpen(false);
+      if (onSave) onSave(tempImg);
+    }
   };
 
   return (

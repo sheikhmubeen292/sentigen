@@ -18,6 +18,7 @@ interface CryptoAssetCardProps {
   sentiImg: any;
   setSentiImg: any;
   isEdit: boolean;
+  tokenMint: any;
 }
 
 export default function CryptoAssetCard({
@@ -32,6 +33,7 @@ export default function CryptoAssetCard({
   sentiImg,
   setSentiImg,
   isEdit,
+  tokenMint,
 }: CryptoAssetCardProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [hover, setHover] = useState(false);
@@ -257,6 +259,7 @@ export default function CryptoAssetCard({
         setOpen={setOpen}
         setImg={setSentiImg}
         img={sentiImg}
+        tokenMint={tokenMint}
       />
     </>
   );

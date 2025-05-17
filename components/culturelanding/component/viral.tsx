@@ -55,13 +55,15 @@ const tweets: Tweet[] = [
   },
 ];
 
-export default function Viral() {
+export default function Viral({ tokenMint, data }: any) {
   const [open, setOpen] = useState(false);
 
   const [vision, setVision] = useState({
-    text: "Sentigen introduces AI-powered Agents, intelligent digital entities designed to automate tasks, interact with users, and enhance brand engagement. These Agents can assist with customer interactions, automate workflows, and even function as personalized brand ambassadors in the Web3 ecosystem.",
-    img: "/newsBg.png",
-    text1: "Next Generation: AI-Powered Agents",
+    text:
+      data?.news?.text ||
+      "Sentigen introduces AI-powered Agents, intelligent digital entities designed to automate tasks, interact with users, and enhance brand engagement. These Agents can assist with customer interactions, automate workflows, and even function as personalized brand ambassadors in the Web3 ecosystem.",
+    img: data?.news?.image || "/newsBg.png",
+    text1: data?.news?.heading || "Next Generation: AI-Powered Agents",
   });
 
   return (
@@ -299,6 +301,7 @@ export default function Viral() {
         setOpen={setOpen}
         vision={vision}
         setVision={setVision}
+        tokenMint={tokenMint}
       />
     </>
   );

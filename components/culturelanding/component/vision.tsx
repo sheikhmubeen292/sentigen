@@ -10,16 +10,13 @@ import NewsText from "./edit-dailog/new-edit";
 import { cn } from "@/lib/utils";
 
 interface EditableLandingPageProps {
-  content: PageContent;
-  onElementClick: (id: string, type: "text" | "image", section: string) => void;
+  tokenMint?: any;
+  data?: any;
 }
 const dummyText =
   "Our world is constantly shifting between physical and digital, creating noise that drowns out what matters. That's where SNTI comes in. We're premium streetwear designed for those seeking clarity in chaos, connecting individuals who understand that style isn't just what you wear—it's how you process and transmit your unique signal.";
 
-export default function Vision({
-  content,
-  onElementClick,
-}: EditableLandingPageProps) {
+export default function Vision({ tokenMint, data }: EditableLandingPageProps) {
   const [open, setOpen] = useState(false);
 
   const [vision, setVision] = useState({
@@ -27,17 +24,11 @@ export default function Vision({
     img: "/visionBg.png",
   });
   const [text, setText] = useState(
-    "There's a lot happening right now, and I've got the latest for you. From fresh insights to key moments, take a look when you're ready."
+    data?.investment_text ||
+      "There's a lot happening right now, and I've got the latest for you. From fresh insights to key moments, take a look when you're ready."
   );
   const [openNew, setOpenNews] = useState(false);
-  const visionSection = content.sections[1];
-  const visionElement = visionSection.elements[3];
-  if (!visionElement || visionElement.type !== "text") return null;
 
-  const visionBgSection = content.sections[1];
-  const visionElementBg = visionBgSection?.elements?.[4];
-
-  if (!visionElementBg || visionElementBg.type !== "image") return null;
   return (
     <>
       {/* Global styles to ensure consistent background color */}
@@ -405,12 +396,14 @@ export default function Vision({
         setOpen={setOpen}
         vision={vision}
         setVision={setVision}
+        tokenMint={tokenMint}
       />
       <NewsText
         text={text}
         setText={setText}
         open={openNew}
         setOpen={setOpenNews}
+        tokenMint={tokenMint}
       />
     </>
   );

@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
+import { serverUrl } from "@/utils/constant";
+import { idlAddress } from "@coral-xyz/anchor/dist/cjs/idl";
+import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
@@ -13,6 +17,7 @@ interface HeroTextProps {
   text: string;
   setText: (text: string) => void;
   onSave?: (text: string) => void;
+  tokenMint: string;
 }
 
 export default function HeroText({
@@ -21,14 +26,30 @@ export default function HeroText({
   text,
   setText,
   onSave,
+  tokenMint,
 }: HeroTextProps) {
   const maxChars = 68;
   const [tempText, setTempText] = useState(text);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setText(tempText);
-    if (onSave) onSave(tempText);
-    setOpen(false);
+    try {
+      const response = await axios.post(`${serverUrl}/coin_detail/title`, {
+        tokenMint: tokenMint,
+        heroText: tempText,
+      });
+
+      if (response.status === 200) {
+        console.log("Coin details updated successfully");
+      } else {
+        console.error("Failed to update coin details");
+      }
+    } catch (err) {
+      console.error("Error fetching coin details:", err);
+    } finally {
+      if (onSave) onSave(tempText);
+      setOpen(false);
+    }
   };
 
   return (

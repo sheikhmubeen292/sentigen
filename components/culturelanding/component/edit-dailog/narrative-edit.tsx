@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
+import { serverUrl } from "@/utils/constant";
+import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
@@ -13,6 +15,7 @@ interface HeroTextProps {
   text: string;
   setText: (text: string) => void;
   onSave?: (text: string) => void;
+  tokenMint?: any;
 }
 
 export default function NarrativeText({
@@ -21,14 +24,36 @@ export default function NarrativeText({
   text,
   setText,
   onSave,
+  tokenMint,
 }: HeroTextProps) {
-  const maxChars = 68;
+  const maxChars = 340;
   const [tempText, setTempText] = useState(text);
 
-  const handleSave = () => {
+  const [isUploading, setIsUploading] = useState(false);
+  const handleSave = async () => {
     setText(tempText);
     if (onSave) onSave(tempText);
-    setOpen(false);
+    setIsUploading(true);
+    try {
+      const response = await axios.post(`${serverUrl}/coin_detail/narrative`, {
+        tokenMint: tokenMint,
+        heroText: tempText,
+      });
+
+      if (response.status === 200) {
+        console.log("Coin narrative text updated successfully");
+        setIsUploading(false);
+      } else {
+        console.error("Failed to update coin details");
+      }
+    } catch (error) {
+      console.log(error);
+      setIsUploading(false);
+    } finally {
+      if (onSave) onSave(tempText);
+      setOpen(false);
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -94,8 +119,9 @@ export default function NarrativeText({
             <Button
               className="bg-white text-[#1F1F1F] hover:bg-gray-200 w-full h-10 rounded-lg"
               onClick={handleSave}
+              disabled={isUploading}
             >
-              Save Changes
+              {isUploading ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </SheetContent>

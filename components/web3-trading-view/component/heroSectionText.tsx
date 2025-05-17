@@ -6,11 +6,12 @@ import HeroText from "@/components/culturelanding/component/edit-dailog/heroText
 import { useState } from "react";
 import Image from "next/image";
 
-export default function HeroSectionText() {
+export default function HeroSectionText({ data, tokenMint }: any) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState(
-    "Premium streetwear for the digitally evolved"
+    data?.title || "Premium streetwear for the digitally evolved"
   );
+
   return (
     <>
       <section className={` pt-[40px] pb-5 px-4 max-w-[1920px] mx-auto`}>
@@ -45,7 +46,13 @@ export default function HeroSectionText() {
       </section>
 
       {/* edit  bar  */}
-      <HeroText open={open} setOpen={setOpen} text={text} setText={setText} />
+      <HeroText
+        open={open}
+        setOpen={setOpen}
+        text={text}
+        setText={setText}
+        tokenMint={tokenMint}
+      />
     </>
   );
 }

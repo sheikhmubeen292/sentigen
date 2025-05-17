@@ -14,11 +14,15 @@ import HeroImgEdit from "./component/edit-dailog/heroImg-edit";
 interface EditableLandingPageProps {
   content: PageContent;
   onElementClick: (id: string, type: "text" | "image", section: string) => void;
+  tokenMint?: string;
+  data?: any;
 }
 
 export default function CultureLanding({
   content,
   onElementClick,
+  tokenMint,
+  data,
 }: EditableLandingPageProps) {
   const firstSection = content.sections[0];
   const firstElement = firstSection?.elements[1];
@@ -26,9 +30,9 @@ export default function CultureLanding({
   if (!firstElement || firstElement.type !== "image") return null;
 
   const [open, setOpen] = useState(false);
-  const [img, setImg] = useState("/cultrureImage.png");
+  const [img, setImg] = useState(data?.heroImage || "/cultrureImage.png");
   const [openSenti, setOpenSenit] = useState(false);
-  const [sentiImg, setSentiImg] = useState("/snti.png");
+  const [sentiImg, setSentiImg] = useState(data?.introLogo || "/snti.png");
   return (
     <>
       <div className="bg-[#0d0d0d] relative overflow-visible max-w-[1920px] mx-auto">
@@ -74,18 +78,25 @@ export default function CultureLanding({
             sentiImg={sentiImg}
             setSentiImg={setSentiImg}
             isEdit={true}
+            tokenMint={tokenMint}
           />
         </div>
 
-        <StreetWearShowcase content={content} onElementClick={onElementClick} />
-        <Vision content={content} onElementClick={onElementClick} />
+        <StreetWearShowcase data={data} tokenMint={tokenMint} />
+        <Vision data={data} tokenMint={tokenMint} />
         <Roadmap />
-        <Partner />
-        <Viral />
+        <Partner data={data} token={tokenMint} />
+        <Viral data={data} tokenMint={tokenMint} />
         <Community content={content} onElementClick={onElementClick} />
       </div>
 
-      <HeroImgEdit open={open} setOpen={setOpen} img={img} setImg={setImg} />
+      <HeroImgEdit
+        open={open}
+        setOpen={setOpen}
+        img={img}
+        setImg={setImg}
+        tokenMint={tokenMint}
+      />
     </>
   );
 }
